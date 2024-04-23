@@ -17,6 +17,7 @@ public class creature_generator : MonoBehaviour
 
     Transform prev_transform;
     float max_mult = 0;
+    float[] mult_array;
 
     public GameObject prefab;
     public GameObject follow;
@@ -26,16 +27,19 @@ public class creature_generator : MonoBehaviour
         float prev_mult;
         max_mult = Mathf.Sin(frequency + start_angle) + 1;
         parts = new GameObject[length + 1];
+        mult_array = new float[length + 1];
         parts[0] = gameObject;
+        mult_array[0] = 0;
         prev_transform = transform;
 
         for (int i = 0; i < length; i++)
         {
             prev_mult = max_mult;
             max_mult = Mathf.Sin(i * frequency + start_angle) + 1;
+            mult_array[i] = max_mult;
 
             GameObject tail = Instantiate(prefab, new Vector3(0 ,0,
-                prev_transform.position.z - prev_transform.localScale.z/2 - (base_size * multiplier * max_mult)/2),
+                prev_transform.position.z -  base_size * multiplier * 2 ),
                 Quaternion.identity);
 
             prev_transform.transform.localScale = new Vector3(base_size * multiplier * max_mult,
@@ -62,5 +66,20 @@ public class creature_generator : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(follow.transform.position, 1);
+
+        Vector3 gizmo_transform = new Vector3(0,0,0);
+        if (isActiveAndEnabled && !Application.isPlaying)
+        {
+            for (int i = 0; i < length; i++)
+            {
+                max_mult = Mathf.Sin(i * frequency + start_angle) + 1;
+                Gizmos.DrawWireCube(new Vector3(0, 0, gizmo_transform.z - base_size * multiplier * 2),
+                    new Vector3(base_size * multiplier * max_mult,
+                    base_size * multiplier * max_mult,
+                    base_size * multiplier * max_mult));
+                gizmo_transform = new Vector3(0, 0, gizmo_transform.z - base_size * multiplier * 2);
+            }
+        }
+        
     }
 }

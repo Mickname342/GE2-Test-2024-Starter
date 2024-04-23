@@ -59,13 +59,13 @@ public class creature_generator : MonoBehaviour
     {
         follow.transform.position = new Vector3(transform.position.x,
            follow.transform.position.y + Mathf.Sin(Time.time * follow_frequency + start_angle) * amplitude,
-           transform.position.z + 5);
+           transform.position.z + 10);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(follow.transform.position, 1);
+        Gizmos.DrawWireSphere(follow.transform.position, 5);
 
         Vector3 gizmo_transform = new Vector3(0,0,0);
         if (isActiveAndEnabled && !Application.isPlaying)

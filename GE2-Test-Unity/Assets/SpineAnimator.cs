@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpineAnimator : MonoBehaviour {
     public GameObject[] bones;
 
+    public creature_generator creature;
     public float bondDamping = 25;
     public float angularBondDamping = 25;
 
@@ -12,6 +13,11 @@ public class SpineAnimator : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
+        bones = new GameObject[creature.length + 1];
+        for (int i = 0; i < bones.Length; i++)
+        {
+            bones[i] = creature.parts[i];
+        }
         if (bones != null)
         {
             for (int i = 0; i < bones.Length; i++)
